@@ -1,9 +1,25 @@
+module CMR
+
+using Crayons.Box
+using Logging
 using Dates
 using HTTP
 using JSON
 using DataFrames
 
+logger = ConsoleLogger()
+global_logger(logger)
+
 DEFAULT_CMR_URL = "https://cmr.earthdata.nasa.gov"
+CMR_SEARCH_URL = "https://cmr.earthdata.nasa.gov/search"
+CMR_GRANULES_JSON_URL = "$(CMR_SEARCH_URL)/granules.json"
+
+URL_FORMAT = merge(BLUE_FG, UNDERLINE)
+VALUE_FORMAT = YELLOW_FG
+TILE_FORMAT = YELLOW_FG
+CONCEPT_ID_FORMAT = YELLOW_FG
+DATE_FORMAT = BLUE_FG
+PAGE_SIZE = 2000
 
 """
     get_JSON_response(URL::String)::Dict{String, Any}
@@ -60,6 +76,8 @@ function generate_product_concept_ID_search_URL(
     "$CMR_URL/search/collections.json?short_name=$product_name"
 end
 
+export generate_product_concept_ID_search_URL
+
 """
     search_product_concept_ID(product_name::String; CMR_URL::String = DEFAULT_CMR_URL)::DataFrame
 
@@ -77,7 +95,7 @@ Search for a product's concept ID in the CMR database.
 df = search_product_concept_ID("VNP09GA")
 ```
 """
-function search_product_concept_ID(
+function CMR_search_product_concept_ID(
         product_name::String;
         CMR_URL::String = DEFAULT_CMR_URL)::DataFrame
     # Generate the URL for searching product concept ID
@@ -101,6 +119,8 @@ function search_product_concept_ID(
     df
 end
 
+export CMR_search_product_concept_ID
+
 """
     get_product_concept_ID(
         product_name::String, 
@@ -122,15 +142,17 @@ This function retrieves the product concept ID from the CMR (Common Metadata Rep
 get_product_concept_ID("VNP09GA", 2)
 ```
 """
-function get_product_concept_ID(
+function get_CMR_product_concept_ID(
         product_name::String, 
         collection::Int,
         CMR_URL::String = DEFAULT_CMR_URL)::String
     # Search for the product concept ID
-    df = search_product_concept_ID(product_name, CMR_URL=CMR_URL)
+    df = CMR_search_product_concept_ID(product_name, CMR_URL=CMR_URL)
     # Return the concept ID of the specified collection
     get(df[df.collection .== collection, :concept_ID], 1, nothing)
 end
+
+export get_CMR_product_concept_ID
 
 """
     format_date(date::Union{Date,String})::String
@@ -180,4 +202,55 @@ generate_CMR_date_range(Date(2022, 1, 1), Date(2022, 12, 31))
 """
 function generate_CMR_date_range(start_date::Union{Date,String}, end_date::Union{Date,String})::String
     "$(format_date(start_date))T00:00:00Z/$(format_date(end_date))T23:59:59Z"
+end
+
+function generate_CMR_granule_search_URL(
+        concept_ID::String,
+        tile::String,
+        start_date::Union{Date,String},
+        end_date::Union{Date,String};
+        page_size::Int = PAGE_SIZE,
+        CMR_URL::String = DEFAULT_CMR_URL)::String
+    datetime_range = generate_CMR_date_range(start_date, end_date)
+    URL = "$CMR_URL/search/granules.json?concept_id=$(concept_ID)&temporal=$(datetime_range)&page_size=$(page_size)&producer_granule_id=*$(tile)*&options[producer_granule_id][pattern]=true"
+
+    return URL
+end
+
+export generate_CMR_granule_search_URL
+
+function CMR_granule_search_JSON(
+        concept_ID::String,
+        tile::String,
+        start_date::Union{Date,String},
+        end_date::Union{Date,String};
+        page_size::Int = PAGE_SIZE,
+        CMR_URL::String = DEFAULT_CMR_URL)::Dict
+    URL = generate_CMR_granule_search_URL(
+        concept_ID,
+        tile,
+        start_date,
+        end_date,
+        page_size = page_size,
+        CMR_URL = CMR_URL
+    )
+
+    # send get request for the CMR query URL
+    @info string("CMR API query for concept ID ", CONCEPT_ID_FORMAT(concept_ID), " at tile ", TILE_FORMAT(tile), " from ", DATE_FORMAT("$(start_date)"), " to ", DATE_FORMAT("$(end_date)"), " with URL: ", URL_FORMAT(URL))
+    response = HTTP.get(URL)
+
+    # check the status code of the response and make sure it's 200 before parsing JSON
+
+    status = response.status
+
+    if status != 200
+        error("CMR API status $(status) for URL: $(query_URL)")
+    end
+
+    # parse JSON response from successful (200) CMR query
+    JSON.parse(String(response.body))
+end
+
+export CMR_granule_search_JSON
+
 end
