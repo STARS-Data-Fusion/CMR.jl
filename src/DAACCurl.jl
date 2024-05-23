@@ -19,15 +19,6 @@ mutable struct Response
 end
 
 """
-    NetworkError <: Exception
-
-A struct that represents a network error. It holds an error message.
-"""
-struct NetworkError <: Exception
-    msg::String
-end
-
-"""
     curl_write_cb(curlbuf::Ptr{Cvoid}, s::Csize_t, n::Csize_t, p_ctxt::Ptr{Response})
 
 A callback function that is called by `curl_easy_perform`. It writes the response data to `p_ctxt`.
@@ -55,7 +46,7 @@ Sends a GET request to the specified URL and returns the response as a string.
 - `::String`: The response from the server.
 
 # Throws
-- `NetworkError`: If the HTTP status code is not 200.
+- `IOError`: If the HTTP status code is not 200.
 """
 function curl(URL::String; cookie_filename::String = COOKIE_FILENAME)::String
     response = Response(Vector{UInt8}())
@@ -91,7 +82,7 @@ function curl(URL::String; cookie_filename::String = COOKIE_FILENAME)::String
 
     # Check if the HTTP status code is 200
     if http_code[1] != 200
-        throw(NetworkError("HTTP status $(http_code[1]) for URL: $URL"))
+        throw(IOError("status $(http_code[1]) for URL: $URL"))
     end
 
     # release handle
