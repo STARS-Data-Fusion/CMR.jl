@@ -7,13 +7,16 @@ using HTTP
 using JSON
 using DataFrames
 
+include("NetCred.jl")
+using .NetCred: read
+
+include("DAACCurl.jl")
+using .DAACCurl: get
+
 logger = ConsoleLogger()
 global_logger(logger)
 
 DEFAULT_CMR_URL = "https://cmr.earthdata.nasa.gov"
-CMR_SEARCH_URL = "https://cmr.earthdata.nasa.gov/search"
-CMR_GRANULES_JSON_URL = "$(CMR_SEARCH_URL)/granules.json"
-
 URL_FORMAT = merge(BLUE_FG, UNDERLINE)
 VALUE_FORMAT = YELLOW_FG
 TILE_FORMAT = YELLOW_FG
