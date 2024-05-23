@@ -11,7 +11,7 @@ include("NetCred.jl")
 using .NetCred: read
 
 include("DAACCurl.jl")
-using .DAACCurl: get
+using .DAACCurl: curl
 
 logger = ConsoleLogger()
 global_logger(logger)
