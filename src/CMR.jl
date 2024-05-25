@@ -12,7 +12,10 @@ include("Cookies.jl")
 include("AuthenticatedCurl.jl")
 include("ProgressDownloader.jl")
 
-import .NetCred: read
+import .NetCred: NetRCFile, get_cred
+
+export NetRCFile, get_cred
+
 import .AuthenticatedCurl: URI, Cookie, head, get_size, curl
 
 export URI, Cookie, head, get_size, curl

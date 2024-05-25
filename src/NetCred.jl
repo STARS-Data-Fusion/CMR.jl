@@ -1,6 +1,6 @@
 module NetCred
 
-import Base: show
+import Base: show, getpass, write, read
 
 struct NetRCFileNotFoundError <: Exception
     msg::String
@@ -108,6 +108,13 @@ Writes the provided credentials to the .netrc file for the specified machine. If
 - `credentials::NetRCCredentials`: The credentials to store, including the machine name, login, password, and account.
 """
 function write(netrcfile::NetRCFile, credentials::NetRCCredentials)
+    # if netrcfile.path does not exist, create it
+    if !isfile(netrcfile.path)
+        open(netrcfile.path, "w") do io
+            write(io, "")
+        end
+    end
+
     lines = isfile(netrcfile.path) ? readlines(netrcfile.path) : String[]
     machine_line = findfirst(x -> x == "machine $(credentials.machine)", lines)
 
@@ -133,4 +140,58 @@ end
 
 export write
 
-end # module
+"""
+    enter_cred(machine::String; need_account::Bool = false)::NetRCCredentials
+
+Prompt the user to enter their login credentials for a given machine. If `need_account` is true, 
+the user will also be prompted to enter their account name.
+
+# Arguments
+- `machine::String`: The name of the machine for which the credentials are being entered.
+- `need_account::Bool`: A flag indicating whether an account name is required. Default is false.
+
+# Returns
+- `NetRCCredentials`: A `NetRCCredentials` object containing the entered credentials.
+
+# Examples
+```julia
+creds = enter_cred("my_machine", need_account=true)
+```
+"""
+function enter(machine::String; need_account::Bool = false)::NetRCCredentials
+    print("login: ")
+    login = string(chomp(readline()))
+    password = string(getpass("password"))
+    println("")
+    
+    if need_account
+        account = string(getpass("account"))
+        println("")
+    else
+        account = ""
+    end
+
+    NetRCCredentials(machine, login, password, account)
+end 
+
+export enter
+
+function get_cred(machine::String)::NetRCCredentials
+    netrc = NetRCFile()
+    try
+        cred = read(netrc, machine)
+        @info "credentials read from .netrc: $machine"
+        return cred
+    catch e
+        println("enter credentials for $machine")
+        cred = enter(machine)
+        @info "writing credentials to .netrc: $machine"
+        write(netrc, cred)
+
+        return cred
+    end
+end
+
+export get_cred
+
+end
