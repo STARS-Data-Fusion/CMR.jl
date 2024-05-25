@@ -8,10 +8,16 @@ using JSON
 using DataFrames
 
 include("NetCred.jl")
-using .NetCred: read
+include("Cookies.jl")
+include("AuthenticatedCurl.jl")
+include("ProgressDownloader.jl")
 
-include("DAACCurl.jl")
-using .DAACCurl: curl
+import .NetCred: read
+import .AuthenticatedCurl: URI, Cookie, head, get_size, curl
+
+export URI, Cookie, head, get_size, curl
+
+using .ProgressDownloader
 
 logger = ConsoleLogger()
 global_logger(logger)
