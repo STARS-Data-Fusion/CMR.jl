@@ -1,5 +1,6 @@
 module CMR
 
+using URIs
 using Crayons.Box
 using Logging
 using Dates
@@ -7,8 +8,15 @@ using HTTP
 using JSON
 using DataFrames
 
+export URI
+
+include("CurlTypes.jl")
 include("NetCred.jl")
 include("Cookies.jl")
+include("CurlOptions.jl")
+include("CurlBuffers.jl")
+include("CurlStatus.jl")
+include("CurlHead.jl")
 include("AuthenticatedCurl.jl")
 include("ProgressDownloader.jl")
 
@@ -16,9 +24,14 @@ import .NetCred: NetRCFile, get_cred
 
 export NetRCFile, get_cred
 
-import .AuthenticatedCurl: URI, Cookie, head, get_size, curl
+import .Cookies: CookieFile, apply_cookie
 
-export URI, Cookie, head, get_size, curl
+export CookieFile
+
+# import .AuthenticatedCurl: head, get_size, curl, curl_binary
+using .AuthenticatedCurl
+
+export head, get_size, curl, curl_binary
 
 using .ProgressDownloader
 

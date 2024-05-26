@@ -50,6 +50,10 @@ end
 
 export NetRCFile
 
+const DEFAULT_NETRC = NetRCFile()
+
+export DEFAULT_NETRC
+
 """
     read(netrcfile::NetRCFile, machine::String) -> NetRCCredentials
 
