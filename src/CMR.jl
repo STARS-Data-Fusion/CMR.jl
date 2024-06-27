@@ -229,7 +229,7 @@ function generate_CMR_date_range(start_date::Union{Date,String}, end_date::Union
     "$(format_date(start_date))T00:00:00Z/$(format_date(end_date))T23:59:59Z"
 end
 
-function generate_CMR_granule_search_URL(
+function generate_CMR_granule_search_tile_URL(
         concept_ID::String,
         tile::String,
         start_date::Union{Date,String},
@@ -242,30 +242,30 @@ function generate_CMR_granule_search_URL(
     return URL
 end
 
-export generate_CMR_granule_search_URL
+export generate_CMR_granule_search_tile_URL
 
-function CMR_granule_search_JSON(
+function generate_CMR_granule_search_URL_polygon(
         concept_ID::String,
-        tile::String,
+        polygon::GeometryBasics.Polygon,
         start_date::Union{Date,String},
         end_date::Union{Date,String};
         page_size::Int = PAGE_SIZE,
-        CMR_URL::String = DEFAULT_CMR_URL)::Dict
-    URL = generate_CMR_granule_search_URL(
-        concept_ID,
-        tile,
-        start_date,
-        end_date,
-        page_size = page_size,
-        CMR_URL = CMR_URL
-    )
+        CMR_URL::String = DEFAULT_CMR_URL)::String
+    datetime_range = generate_CMR_date_range(start_date, end_date)
+    polygon_coords = join(["$(coord[1]),$(coord[2])" for coord in coordinates(polygon)], ",")
+    URL = "$CMR_URL/search/granules.json?concept_id=$(concept_ID)&temporal=$(datetime_range)&page_size=$(page_size)&polygon=$polygon_coords"
 
+    return URL
+end
+
+export generate_CMR_granule_search_URL_polygon
+
+function query_CMR_URL_as_JSON(URL::String)::Dict
     # send get request for the CMR query URL
     @info string("CMR API query for concept ID ", CONCEPT_ID_FORMAT(concept_ID), " at tile ", TILE_FORMAT(tile), " from ", DATE_FORMAT("$(start_date)"), " to ", DATE_FORMAT("$(end_date)"), " with URL: ", URL_FORMAT(URL))
     response = HTTP.get(URL)
 
     # check the status code of the response and make sure it's 200 before parsing JSON
-
     status = response.status
 
     if status != 200
@@ -276,6 +276,44 @@ function CMR_granule_search_JSON(
     JSON.parse(String(response.body))
 end
 
-export CMR_granule_search_JSON
+export query_CMR_URL_as_JSON
+
+function CMR_granule_search_tile_JSON(
+        concept_ID::String,
+        tile::String,
+        start_date::Union{Date,String},
+        end_date::Union{Date,String};
+        page_size::Int = PAGE_SIZE,
+        CMR_URL::String = DEFAULT_CMR_URL)::Dict
+    query_CMR_URL_as_JSON(generate_CMR_granule_search_tile_URL(
+        concept_ID,
+        tile,
+        start_date,
+        end_date,
+        page_size = page_size,
+        CMR_URL = CMR_URL
+    ))
+end
+
+export CMR_granule_search_tile_JSON
+
+function CMR_granule_search_polygon(
+        concept_ID::String,
+        polygon::GeometryBasics.Polygon,
+        start_date::Union{Date,String},
+        end_date::Union{Date,String};
+        page_size::Int = PAGE_SIZE,
+        CMR_URL::String = DEFAULT_CMR_URL)::Dict
+    query_CMR_URL_as_JSON(generate_CMR_granule_search_URL_polygon(
+        concept_ID,
+        polygon,
+        start_date,
+        end_date,
+        page_size = page_size,
+        CMR_URL = CMR_URL
+    ))
+end
+
+export CMR_granule_search_polygon
 
 end
