@@ -1,0 +1,175 @@
+<?xml version='1.0'?>
+<Granule>
+    <GranuleUR>VNP09GA.A2024045.h08v05.002.2024046104455</GranuleUR>
+    <InsertTime>2024-02-16T22:53:05.592Z</InsertTime>
+    <LastUpdate>2024-02-16T22:53:37.134Z</LastUpdate>
+    <Collection>
+        <ShortName>VNP09GA</ShortName>
+        <VersionId>002</VersionId>
+    </Collection>
+    <DataGranule>
+        <SizeMBDataGranule>83.3341684341431</SizeMBDataGranule>
+        <ReprocessingPlanned>further update is anticipated</ReprocessingPlanned>
+        <ReprocessingActual>reprocessed</ReprocessingActual>
+        <ProducerGranuleId>VNP09GA.A2024045.h08v05.002.2024046104455</ProducerGranuleId>
+        <DayNightFlag>BOTH</DayNightFlag>
+        <ProductionDateTime>2024-02-15T10:44:55Z</ProductionDateTime>
+        <AdditionalFile>
+            <Name>BROWSE.VNP09GA.A2024045.h08v05.002.2024046104455.1.jpg</Name>
+            <SizeInBytes>67263</SizeInBytes>
+            <Checksum>
+                <Value>df5f1488545ffa9b905cdd91244a4ea93302c18bf6c63b93a22ba05ec7b4761b</Value>
+                <Algorithm>SHA256</Algorithm>
+            </Checksum>
+        </AdditionalFile>
+        <AdditionalFile>
+            <Name>VNP09GA.A2024045.h08v05.002.2024046104455.h5</Name>
+            <SizeInBytes>87382209</SizeInBytes>
+            <Checksum>
+                <Value>2ccb5a95394452e35966cb9ae8e55a2cfae47111a1b32746b5feb8de4a137ce8</Value>
+                <Algorithm>SHA256</Algorithm>
+            </Checksum>
+        </AdditionalFile>
+    </DataGranule>
+    <PGEVersionClass>
+        <PGEVersion>2.0.5</PGEVersion>
+    </PGEVersionClass>
+    <Temporal>
+        <RangeDateTime>
+            <BeginningDateTime>2024-02-14T00:00:00.000000Z</BeginningDateTime>
+            <EndingDateTime>2024-02-14T23:59:59.000000Z</EndingDateTime>
+        </RangeDateTime>
+    </Temporal>
+    <Spatial>
+        <HorizontalSpatialDomain>
+            <Geometry>
+                <GPolygon>
+                    <Boundary>
+                        <Point>
+                            <PointLongitude>-130.5407</PointLongitude>
+                            <PointLatitude>40</PointLatitude>
+                        </Point>
+                        <Point>
+                            <PointLongitude>-117.3606</PointLongitude>
+                            <PointLatitude>40.0852</PointLatitude>
+                        </Point>
+                        <Point>
+                            <PointLongitude>-103.6998</PointLongitude>
+                            <PointLatitude>29.9063</PointLatitude>
+                        </Point>
+                        <Point>
+                            <PointLongitude>-115.3696</PointLongitude>
+                            <PointLatitude>29.8308</PointLatitude>
+                        </Point>
+                    </Boundary>
+                </GPolygon>
+            </Geometry>
+        </HorizontalSpatialDomain>
+    </Spatial>
+    <Platforms>
+        <Platform>
+            <ShortName>SUOMI-NPP</ShortName>
+            <Instruments>
+                <Instrument>
+                    <ShortName>VIIRS</ShortName>
+                </Instrument>
+            </Instruments>
+        </Platform>
+    </Platforms>
+    <Campaigns>
+        <Campaign>
+            <ShortName>NPP-JPSS</ShortName>
+        </Campaign>
+    </Campaigns>
+    <AdditionalAttributes>
+        <AdditionalAttribute>
+            <Name>TileID</Name>
+            <Values>
+                <Value>51008005</Value>
+            </Values>
+        </AdditionalAttribute>
+        <AdditionalAttribute>
+            <Name>HORIZONTALTILENUMBER</Name>
+            <Values>
+                <Value>08</Value>
+            </Values>
+        </AdditionalAttribute>
+        <AdditionalAttribute>
+            <Name>VERTICALTILENUMBER</Name>
+            <Values>
+                <Value>05</Value>
+            </Values>
+        </AdditionalAttribute>
+        <AdditionalAttribute>
+            <Name>identifier_product_doi</Name>
+            <Values>
+                <Value>10.5067/VIIRS/VNP09GA.002</Value>
+            </Values>
+        </AdditionalAttribute>
+        <AdditionalAttribute>
+            <Name>identifier_product_doi_authority</Name>
+            <Values>
+                <Value>http://dx.doi.org</Value>
+            </Values>
+        </AdditionalAttribute>
+    </AdditionalAttributes>
+    <OnlineAccessURLs>
+        <OnlineAccessURL>
+            <URL>https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.h5</URL>
+            <URLDescription>Download VNP09GA.A2024045.h08v05.002.2024046104455.h5</URLDescription>
+        </OnlineAccessURL>
+        <OnlineAccessURL>
+            <URL>s3://lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.h5</URL>
+            <URLDescription>This link provides direct download access via S3 to the granule</URLDescription>
+        </OnlineAccessURL>
+    </OnlineAccessURLs>
+    <OnlineResources>
+        <OnlineResource>
+            <URL>https://doi.org/10.5067/VIIRS/VNP09GA.002</URL>
+            <Description>The Landing Page for this file may be accessed directly from this link</Description>
+            <Type>DOI</Type>
+            <MimeType>text/html</MimeType>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>https://opendap.earthdata.nasa.gov/collections/C2631841556-LPCLOUD/granules/VNP09GA.A2024045.h08v05.002.2024046104455</URL>
+            <Description>OPeNDAP request URL</Description>
+            <Type>GET DATA : OPENDAP DATA</Type>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.cmr.xml</URL>
+            <Description>Download VNP09GA.A2024045.h08v05.002.2024046104455.cmr.xml</Description>
+            <Type>EXTENDED METADATA</Type>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>s3://lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.cmr.xml</URL>
+            <Description>This link provides direct download access via S3 to the granule</Description>
+            <Type>EXTENDED METADATA</Type>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.h5.dmrpp</URL>
+            <Description>Download VNP09GA.A2024045.h08v05.002.2024046104455.h5.dmrpp</Description>
+            <Type>VIEW RELATED INFORMATION</Type>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>s3://lp-prod-protected/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/VNP09GA.A2024045.h08v05.002.2024046104455.h5.dmrpp</URL>
+            <Description>This link provides direct download access via S3 to the granule</Description>
+            <Type>VIEW RELATED INFORMATION</Type>
+        </OnlineResource>
+        <OnlineResource>
+            <URL>https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials</URL>
+            <Description>api endpoint to retrieve temporary credentials valid for same-region direct s3 access</Description>
+            <Type>VIEW RELATED INFORMATION</Type>
+        </OnlineResource>
+    </OnlineResources>
+    <DataFormat>HDF-EOS5</DataFormat>
+    <AssociatedBrowseImageUrls>
+        <ProviderBrowseUrl>
+            <URL>https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/BROWSE.VNP09GA.A2024045.h08v05.002.2024046104455.1.jpg</URL>
+            <Description>Download BROWSE.VNP09GA.A2024045.h08v05.002.2024046104455.1.jpg</Description>
+        </ProviderBrowseUrl>
+        <ProviderBrowseUrl>
+            <URL>s3://lp-prod-public/VNP09GA.002/VNP09GA.A2024045.h08v05.002.2024046104455/BROWSE.VNP09GA.A2024045.h08v05.002.2024046104455.1.jpg</URL>
+            <Description>This link provides direct download access via S3 to the granule</Description>
+        </ProviderBrowseUrl>
+    </AssociatedBrowseImageUrls>
+</Granule>
