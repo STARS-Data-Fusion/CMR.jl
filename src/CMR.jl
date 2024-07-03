@@ -7,6 +7,7 @@ using Dates
 using HTTP
 using JSON
 using DataFrames
+using GeometryBasics
 
 export URI
 
